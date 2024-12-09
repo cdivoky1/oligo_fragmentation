@@ -3,14 +3,15 @@ from collections import Counter
 
 # Define the structures
 structures = {
-    "sugar": {"C": 5, "H": 9, "O": 2},
+    "sugar": {"C": 5, "H": 9, "O": 2}, #3' OH intentially left off
     "outer_link": {"O": 1},
     "inner_link": {"H": 1, "O": 2, "P": 1},
     "A": {"C": 5, "H": 4, "N": 5, "O": 0},
     "U": {"C": 4, "H": 4, "N": 2, "O": 2},
     "C": {"C": 4, "H": 4, "N": 3, "O": 1},
     "G": {"C": 5, "H": 4, "N": 3, "O": 1},
-    "H": {"H": 1},  # For 3'-OH
+    "H": {"H": 1},  # For 3'-H
+    "OH": {"O":1, "H": 1},  # For 3'-OH
 }
 
 def format_structure(component):
@@ -57,6 +58,7 @@ def simulate_fragmentation(sequence):
     fragment_structures = {"a": [], "b": [], "c": [], "d": [], "w": [], "x": [], "y": [], "z": []}
 
     for i, nucleotide in enumerate(sequence):
+
         if nucleotide not in structures:
             raise ValueError(f"Invalid nucleotide: {nucleotide}")
 
@@ -70,26 +72,24 @@ def simulate_fragmentation(sequence):
             prefix_formula.update(structures["inner_link"])
             prefix_structure.append(format_structure("outer_link"))
             prefix_formula.update(structures["outer_link"])
-            prefix_structure.append(format_structure("sugar"))
-            prefix_formula.update(structures["sugar"])
             prefix_structure.append(format_structure(sequence[i]))
             prefix_formula.update(structures[sequence[i]])
-            #if j < i:  # Add inner/outer linkers for all but the last nucleotide
-            #    prefix_structure.append(format_structure("outer_link"))
-            #    prefix_formula.update(structures["outer_link"])
-            #    prefix_structure.append(format_structure("inner_link"))
-            #    prefix_formula.update(structures["inner_link"])
-        fragments["a"].append(prefix_formula - Counter(structures["sugar"]))
-        fragment_structures["a"].append("--".join(prefix_structure[:-1]))  # Remove final sugar for 'a'
+            prefix_structure.append(format_structure("sugar"))
+            prefix_formula.update(structures["sugar"])
+            print(f"prefix in {j} loop: {prefix_structure}")
 
-        fragments["b"].append(prefix_formula)
-        fragment_structures["b"].append("--".join(prefix_structure))
+        # Add 3'H group for 'a' fragments
+        fragments["a"].append(prefix_formula + Counter(structures["H"]))
+        fragment_structures["a"].append("--".join(prefix_structure + [format_structure("H")])) 
 
-        fragments["c"].append(prefix_formula + Counter(structures["inner_link"]))
-        fragment_structures["c"].append("--".join(prefix_structure + [format_structure("inner_link")]))
+        fragments["b"].append(prefix_formula + Counter(structures["OH"]))
+        fragment_structures["b"].append("--".join(prefix_structure + [format_structure("OH")]))
 
-        fragments["d"].append(prefix_formula + Counter(structures["outer_link"]))
-        fragment_structures["d"].append("--".join(prefix_structure + [format_structure("outer_link")]))
+        fragments["c"].append(prefix_formula + Counter(structures["outer_link"]) + Counter(structures["inner_link"]))
+        fragment_structures["c"].append("--".join(prefix_structure + [format_structure("outer_link")] + [format_structure("inner_link")]))
+
+        fragments["d"].append(prefix_formula + Counter(structures["outer_link"]) + Counter(structures["inner_link"]) + Counter(structures["outer_link"]) + Counter(structures["H"]))
+        fragment_structures["d"].append("--".join(prefix_structure + [format_structure("outer_link")] + [format_structure("inner_link")] + [format_structure("outer_link")] + [format_structure("H")]))
 
         # 3' side fragments (w, x, y, z)
         suffix_formula = Counter()
