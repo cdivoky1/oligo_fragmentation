@@ -54,8 +54,9 @@ def calculate_chemical_formula(sequence):
 
 def simulate_fragmentation(sequence):
     """Simulates RNA fragmentation into a, b, c, d, w, x, y, z ions."""
-    fragments = {"a": [], "b": [], "c": [], "d": [], "w": [], "x": [], "y": [], "z": []}
-    fragment_structures = {"a": [], "b": [], "c": [], "d": [], "w": [], "x": [], "y": [], "z": []}
+    
+    fragments = {"a": [], "a-bh": [], "b": [], "c": [], "d": [], "w": [], "x": [], "y": [], "z": []}
+    fragment_structures = {"a": [], "a-bh": [], "b": [], "c": [], "d": [], "w": [], "x": [], "y": [], "z": []}
 
     for i, nucleotide in enumerate(sequence):
 
@@ -72,22 +73,28 @@ def simulate_fragmentation(sequence):
             prefix_formula.update(structures["inner_link"])
             prefix_structure.append(format_structure("outer_link"))
             prefix_formula.update(structures["outer_link"])
-            prefix_structure.append(format_structure(sequence[i]))
-            prefix_formula.update(structures[sequence[i]])
             prefix_structure.append(format_structure("sugar"))
             prefix_formula.update(structures["sugar"])
-            print(f"prefix in {j} loop: {prefix_structure}")
+            prefix_structure.append(format_structure(sequence[i]))
+            prefix_formula.update(structures[sequence[i]])
 
         # Add 3'H group for 'a' fragments
         fragments["a"].append(prefix_formula + Counter(structures["H"]))
         fragment_structures["a"].append("--".join(prefix_structure + [format_structure("H")])) 
 
+        # Remove base (last structure) and add a 3' H onto sugar
+        fragments["a-bh"].append(prefix_formula - Counter(structures[sequence[i]]) + Counter(structures["H"]))
+        fragment_structures["a-bh"].append("--".join(prefix_structure[:-1] + [format_structure("H")])) 
+
+        # Add 3' OH
         fragments["b"].append(prefix_formula + Counter(structures["OH"]))
         fragment_structures["b"].append("--".join(prefix_structure + [format_structure("OH")]))
 
+        # Add 3' O and PO2 (unsure whether the phoshate is protonated in the machine during fragmentation)
         fragments["c"].append(prefix_formula + Counter(structures["outer_link"]) + Counter(structures["inner_link"]))
         fragment_structures["c"].append("--".join(prefix_structure + [format_structure("outer_link")] + [format_structure("inner_link")]))
 
+        # Add 3' Phosphate group (PO4) with added Hydogen on the temrinal O of the PO3 group
         fragments["d"].append(prefix_formula + Counter(structures["outer_link"]) + Counter(structures["inner_link"]) + Counter(structures["outer_link"]) + Counter(structures["H"]))
         fragment_structures["d"].append("--".join(prefix_structure + [format_structure("outer_link")] + [format_structure("inner_link")] + [format_structure("outer_link")] + [format_structure("H")]))
 
