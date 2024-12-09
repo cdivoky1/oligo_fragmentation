@@ -128,7 +128,7 @@ def simulate_fragmentation(sequence):
 
         fragments["z"].append(suffix_formula + Counter(structures["outer_link"]))
         fragment_structures["z"].append("--".join(suffix_structure + [format_structure("outer_link")]))
-
+    
     return fragments, fragment_structures
 
 def format_chemical_formula(total_formula):
