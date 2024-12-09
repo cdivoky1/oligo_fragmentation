@@ -54,7 +54,7 @@ def calculate_chemical_formula(sequence):
 
 def simulate_fragmentation(sequence):
     """Simulates RNA fragmentation into a, b, c, d, w, x, y, z ions."""
-    
+
     fragments = {"a": [], "a-bh": [], "b": [], "c": [], "d": [], "w": [], "x": [], "y": [], "z": []}
     fragment_structures = {"a": [], "a-bh": [], "b": [], "c": [], "d": [], "w": [], "x": [], "y": [], "z": []}
 
@@ -90,11 +90,11 @@ def simulate_fragmentation(sequence):
         fragments["b"].append(prefix_formula + Counter(structures["OH"]))
         fragment_structures["b"].append("--".join(prefix_structure + [format_structure("OH")]))
 
-        # Add 3' O and PO2 (unsure whether the phoshate is protonated in the machine during fragmentation)
+        # Add 3' O and PO2H (unsure whether the phoshate is protonated once more in the machine during fragmentation)
         fragments["c"].append(prefix_formula + Counter(structures["outer_link"]) + Counter(structures["inner_link"]))
         fragment_structures["c"].append("--".join(prefix_structure + [format_structure("outer_link")] + [format_structure("inner_link")]))
 
-        # Add 3' Phosphate group (PO4) with added Hydogen on the temrinal O of the PO3 group
+        # Add 3' Phosphate group (PO4) with an added hydogen on the terminal O of the PO3 group
         fragments["d"].append(prefix_formula + Counter(structures["outer_link"]) + Counter(structures["inner_link"]) + Counter(structures["outer_link"]) + Counter(structures["H"]))
         fragment_structures["d"].append("--".join(prefix_structure + [format_structure("outer_link")] + [format_structure("inner_link")] + [format_structure("outer_link")] + [format_structure("H")]))
 
