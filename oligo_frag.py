@@ -75,8 +75,8 @@ def simulate_fragmentation(sequence):
             prefix_formula.update(structures["outer_link"])
             prefix_structure.append(format_structure("sugar"))
             prefix_formula.update(structures["sugar"])
-            prefix_structure.append(format_structure(sequence[i]))
-            prefix_formula.update(structures[sequence[i]])
+            prefix_structure.append(format_structure(sequence[j]))
+            prefix_formula.update(structures[sequence[j]])
 
         # Add 3'H group for 'a' fragments
         fragments["a"].append(prefix_formula + Counter(structures["H"]))
@@ -101,18 +101,24 @@ def simulate_fragmentation(sequence):
         # 3' side fragments (w, x, y, z)
         suffix_formula = Counter()
         suffix_structure = []
-        for j in range(i, len(sequence)):
-            suffix_structure.append(format_structure("sugar"))
-            suffix_formula.update(structures["sugar"])
+        for j in range(i+1, len(sequence)): # j starts at i+1 so it doesn't capture preceding base
             suffix_structure.append(format_structure(sequence[j]))
             suffix_formula.update(structures[sequence[j]])
-            if j > i:  # Add inner/outer linkers for all but the first nucleotide
+            suffix_structure.append(format_structure("sugar"))
+            suffix_formula.update(structures["sugar"])
+            if j < len(sequence)-1:
                 suffix_structure.append(format_structure("outer_link"))
                 suffix_formula.update(structures["outer_link"])
                 suffix_structure.append(format_structure("inner_link"))
                 suffix_formula.update(structures["inner_link"])
+                suffix_structure.append(format_structure("outer_link"))
+                suffix_formula.update(structures["outer_link"])
+            if j == len(sequence)-1:
+                suffix_structure.append(format_structure("OH"))
+                suffix_formula.update(structures["OH"])
+            
         fragments["w"].append(suffix_formula - Counter(structures["sugar"]))
-        fragment_structures["w"].append("--".join(suffix_structure[:-1]))  # Remove final sugar for 'w'
+        fragment_structures["w"].append("--".join(suffix_structure))  
 
         fragments["x"].append(suffix_formula)
         fragment_structures["x"].append("--".join(suffix_structure))
