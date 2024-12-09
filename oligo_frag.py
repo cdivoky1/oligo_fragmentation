@@ -1,78 +1,161 @@
 import argparse
+from collections import Counter
 
-reference = {
-    "sugar": {"C":5, "H":9,"O":3},
-    "phosphate":{"O":3, "P":1},
-    "A":{"C":5, "H":4, "N":5, "O":0},
-    "U":{"C":4, "H":4, "N":2, "O":2},
-    "C":{"C":4, "H":4, "N":3, "O":1},
-    "G":{"C":5, "H":4, "N":3, "O":1},
+# Define the structures
+structures = {
+    "sugar": {"C": 5, "H": 9, "O": 2},
+    "outer_link": {"O": 1},
+    "inner_link": {"H": 1, "O": 2, "P": 1},
+    "A": {"C": 5, "H": 4, "N": 5, "O": 0},
+    "U": {"C": 4, "H": 4, "N": 2, "O": 2},
+    "C": {"C": 4, "H": 4, "N": 3, "O": 1},
+    "G": {"C": 5, "H": 4, "N": 3, "O": 1},
+    "H": {"H": 1},  # For 3'-OH
 }
 
-def build_complete(seq):
-    # Initialize structure dictionary
-    structure = {"C": 0, "H": 0, "N": 0, "O": 0, "P": 0}  # Initialize with zeroes for all atoms
-    struct_string = []
+def format_structure(component):
+    """Formats the CHNOP count of a component into a string."""
+    return "".join(f"{element}{count}" for element, count in structures[component].items())
 
-    for nt in range(0,len(seq)):
-        # Add sugar counts
-        for atom, count in reference["sugar"].items():
-            structure[atom] += count
-            
-        # Add phosphate counts
-        for atom, count in reference["phosphate"].items():
-            structure[atom] += count
-        # Add base counts
-        for atom, count in reference[seq[nt]].items():
-            structure[atom] += count
-        
-    return structure
+def calculate_chemical_formula(sequence):
+    total_formula = Counter()
+    formatted_structure = []
 
-def generate_a(seq):
-   a_frags = []
-   frag = {"C": 0, "H": 0, "N": 0, "O": 0, "P": 0}  # Initialize with zeroes for all atoms
-   
-   for nt in range(0,len(seq)):
-        for atom, count in reference["sugar"].items():
-            frag[atom] += count
-        # Add phosphate counts
-        for atom, count in reference["phosphate"].items():
-            frag[atom] += count
-        # Add base counts
-        for atom, count in reference[seq[nt]].items():
-            frag[atom] += count
-        
-        print(frag)
-        frag["O"] -= 1
-        frag["P"] -= 1
-        print(frag)
-        a_frags.append(frag)
-   
-    return a_frags[]
+    for nucleotide in sequence:
+        if nucleotide not in structures:
+            raise ValueError(f"Invalid nucleotide: {nucleotide}")
 
-def generate_b(formula):
-    return formula
+        # Add the components for this nucleotide
+        formatted_structure.append(format_structure("outer_link"))
+        total_formula.update(structures["outer_link"])
 
-def generate_c(formula):
-    return formula
+        formatted_structure.append(format_structure("inner_link"))
+        total_formula.update(structures["inner_link"])
 
-def generate_d(formula):
-    return formula
+        formatted_structure.append(format_structure("outer_link"))
+        total_formula.update(structures["outer_link"])
+
+        formatted_structure.append(format_structure("sugar"))
+        total_formula.update(structures["sugar"])
+
+        formatted_structure.append(format_structure(nucleotide))
+        total_formula.update(structures[nucleotide])
+
+    # Handle final outer_link
+    formatted_structure.append(format_structure("outer_link"))
+    total_formula.update(structures["outer_link"])
+
+    # Account for 3'OH on terminal end
+    formatted_structure.append(format_structure("H"))
+    total_formula.update(structures["H"])
+
+    return formatted_structure, total_formula
+
+def simulate_fragmentation(sequence):
+    """Simulates RNA fragmentation into a, b, c, d, w, x, y, z ions."""
+    fragments = {"a": [], "b": [], "c": [], "d": [], "w": [], "x": [], "y": [], "z": []}
+    fragment_structures = {"a": [], "b": [], "c": [], "d": [], "w": [], "x": [], "y": [], "z": []}
+
+    for i, nucleotide in enumerate(sequence):
+        if nucleotide not in structures:
+            raise ValueError(f"Invalid nucleotide: {nucleotide}")
+
+        # 5' side fragments (a, b, c, d)
+        prefix_formula = Counter()
+        prefix_structure = []
+        for j in range(i + 1):
+            prefix_structure.append(format_structure("outer_link"))
+            prefix_formula.update(structures["outer_link"])
+            prefix_structure.append(format_structure("inner_link"))
+            prefix_formula.update(structures["inner_link"])
+            prefix_structure.append(format_structure("outer_link"))
+            prefix_formula.update(structures["outer_link"])
+            prefix_structure.append(format_structure("sugar"))
+            prefix_formula.update(structures["sugar"])
+            prefix_structure.append(format_structure(sequence[i]))
+            prefix_formula.update(structures[sequence[i]])
+            #if j < i:  # Add inner/outer linkers for all but the last nucleotide
+            #    prefix_structure.append(format_structure("outer_link"))
+            #    prefix_formula.update(structures["outer_link"])
+            #    prefix_structure.append(format_structure("inner_link"))
+            #    prefix_formula.update(structures["inner_link"])
+        fragments["a"].append(prefix_formula - Counter(structures["sugar"]))
+        fragment_structures["a"].append("--".join(prefix_structure[:-1]))  # Remove final sugar for 'a'
+
+        fragments["b"].append(prefix_formula)
+        fragment_structures["b"].append("--".join(prefix_structure))
+
+        fragments["c"].append(prefix_formula + Counter(structures["inner_link"]))
+        fragment_structures["c"].append("--".join(prefix_structure + [format_structure("inner_link")]))
+
+        fragments["d"].append(prefix_formula + Counter(structures["outer_link"]))
+        fragment_structures["d"].append("--".join(prefix_structure + [format_structure("outer_link")]))
+
+        # 3' side fragments (w, x, y, z)
+        suffix_formula = Counter()
+        suffix_structure = []
+        for j in range(i, len(sequence)):
+            suffix_structure.append(format_structure("sugar"))
+            suffix_formula.update(structures["sugar"])
+            suffix_structure.append(format_structure(sequence[j]))
+            suffix_formula.update(structures[sequence[j]])
+            if j > i:  # Add inner/outer linkers for all but the first nucleotide
+                suffix_structure.append(format_structure("outer_link"))
+                suffix_formula.update(structures["outer_link"])
+                suffix_structure.append(format_structure("inner_link"))
+                suffix_formula.update(structures["inner_link"])
+        fragments["w"].append(suffix_formula - Counter(structures["sugar"]))
+        fragment_structures["w"].append("--".join(suffix_structure[:-1]))  # Remove final sugar for 'w'
+
+        fragments["x"].append(suffix_formula)
+        fragment_structures["x"].append("--".join(suffix_structure))
+
+        fragments["y"].append(suffix_formula + Counter(structures["inner_link"]))
+        fragment_structures["y"].append("--".join(suffix_structure + [format_structure("inner_link")]))
+
+        fragments["z"].append(suffix_formula + Counter(structures["outer_link"]))
+        fragment_structures["z"].append("--".join(suffix_structure + [format_structure("outer_link")]))
+
+    return fragments, fragment_structures
+
+def format_chemical_formula(total_formula):
+    return ''.join(f"{element}{count}" for element, count in sorted(total_formula.items()))
 
 def main():
-    # Parse command-line arguments
-    parser = argparse.ArgumentParser(description="Calculate chemical structure of an RNA sequence.")
-    parser.add_argument("sequence", type=str, help="RNA sequence (e.g., AUC).")
+    parser = argparse.ArgumentParser(description="Build RNA oligo and simulate fragmentation.")
+    parser.add_argument("sequence", type=str, help="RNA sequence (e.g., ACGU)")
+    parser.add_argument("--output", type=str, default="chemical_formula.txt", help="Output file for chemical formula")
     args = parser.parse_args()
 
-    # Extract sequence from command-line arguments
-    sequence = args.sequence
-    print(f"Sequence to be fragmented: {sequence}")
-    print(f"Length of sequence: {len(sequence)}")
+    sequence = args.sequence.upper()
+    try:
+        # Build full RNA molecule
+        formatted_structure, total_formula = calculate_chemical_formula(sequence)
+        print("Linkage Structure:")
+        print("--".join(formatted_structure))
 
-    base = build_complete(sequence)
-    a_ions = generate_a(base)
-    print(a_ions)
+        chemical_formula = format_chemical_formula(total_formula)
+        print(f"total_formula: \n{total_formula}")
+        print("\nChemical Formula:")
+        print(chemical_formula)
+
+        # Simulate fragmentation
+        fragments, fragment_structures = simulate_fragmentation(sequence)
+        print("\nFragmentation Results:")
+        for ion_type, ion_list in fragments.items():
+            print(f"\n{ion_type}-series fragments:")
+            for i, fragment in enumerate(ion_list):
+                formatted_fragment = format_chemical_formula(fragment)
+                print(f"Fragment {i + 1} Linked Structure:")
+                print(fragment_structures[ion_type][i])
+                print(f"Fragment {i + 1} Formula:")
+                print(formatted_fragment)
+
+        with open(args.output, "w") as file:
+            file.write(chemical_formula + "\n")
+        print(f"\nChemical formula saved to {args.output}")
+    except ValueError as e:
+        print(e)
 
 if __name__ == "__main__":
     main()
