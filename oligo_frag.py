@@ -106,7 +106,7 @@ def simulate_fragmentation(sequence):
             suffix_formula.update(structures[sequence[j]])
             suffix_structure.append(format_structure("sugar"))
             suffix_formula.update(structures["sugar"])
-            if j < len(sequence)-1:
+            if j < len(sequence):
                 suffix_structure.append(format_structure("outer_link"))
                 suffix_formula.update(structures["outer_link"])
                 suffix_structure.append(format_structure("inner_link"))
@@ -116,18 +116,28 @@ def simulate_fragmentation(sequence):
             if j == len(sequence)-1:
                 suffix_structure.append(format_structure("OH"))
                 suffix_formula.update(structures["OH"])
-            
-        fragments["w"].append(suffix_formula - Counter(structures["sugar"]))
-        fragment_structures["w"].append("--".join(suffix_structure))  
 
+        suffix_structure.insert(0, format_structure("H"))  # Add inner_link to the beginning
+        suffix_formula.update(structures["H"])
+        fragments["z"].append(suffix_formula)
+        fragment_structures["z"].append("--".join(suffix_structure))
+        suffix_structure.pop(0)  # Remove the first element if it is "H"
+        suffix_formula.subtract(structures["H"])  # Subtract its contribution
+
+        suffix_structure.insert(0, format_structure("outer_link"))  # Add inner_link to the beginning
+        suffix_formula.update(structures["outer_link"])
+        fragments["y"].append(suffix_formula)
+        fragment_structures["y"].append("--".join(suffix_structure ))
+        
+        suffix_structure.insert(0, format_structure("inner_link"))  # Add inner_link to the beginning
+        suffix_formula.update(structures["inner_link"])
         fragments["x"].append(suffix_formula)
-        fragment_structures["x"].append("--".join(suffix_structure))
-
-        fragments["y"].append(suffix_formula + Counter(structures["inner_link"]))
-        fragment_structures["y"].append("--".join(suffix_structure + [format_structure("inner_link")]))
-
-        fragments["z"].append(suffix_formula + Counter(structures["outer_link"]))
-        fragment_structures["z"].append("--".join(suffix_structure + [format_structure("outer_link")]))
+        fragment_structures["x"].append("--".join(suffix_structure))  
+        
+        suffix_structure.insert(0, format_structure("outer_link"))  # Add inner_link to the beginning
+        suffix_formula.update(structures["outer_link"])
+        fragments["w"].append(suffix_formula)
+        fragment_structures["w"].append("--".join(suffix_structure))
     
     return fragments, fragment_structures
 
