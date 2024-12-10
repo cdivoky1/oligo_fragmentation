@@ -130,7 +130,7 @@ def simulate_fragmentation(sequence):
         suffix_structure.pop(0)  # Remove the first element if it is "H"
         suffix_formula.subtract(structures["H"])  # Subtract its contribution
 
-        suffix_structure.insert(0, format_structure("outer_link"))  # Add inner_link to the beginning
+        suffix_structure.insert(0, format_structure("outer_link"))  # Add outer_link to the beginning
         suffix_formula.update(structures["outer_link"])
         fragments["y"].append(suffix_formula)
         fragment_structures["y"].append("--".join(suffix_structure ))
@@ -140,7 +140,7 @@ def simulate_fragmentation(sequence):
         fragments["x"].append(suffix_formula)
         fragment_structures["x"].append("--".join(suffix_structure))  
         
-        suffix_structure.insert(0, format_structure("outer_link"))  # Add inner_link to the beginning
+        suffix_structure.insert(0, format_structure("outer_link"))  # Add outer_link to the beginning
         suffix_formula.update(structures["outer_link"])
         fragments["w"].append(suffix_formula)
         fragment_structures["w"].append("--".join(suffix_structure))
