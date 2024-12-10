@@ -79,59 +79,43 @@ Fragment 3 Formula:
 C29H44N11O24P4
 
 w-series fragments:
-Fragment 1 Linked Structure:
-O1--H1O2P1--O1--C5H4N3O1--C5H9O2--O1--H1O2P1--O1--C4H4N3O1--C5H9O2--O1--H1O2P1--O1--O1H1
-Fragment 1 Formula:
-C19H30N6O19P3
 Fragment 2 Linked Structure:
-O1--H1O2P1--O1--C4H4N3O1--C5H9O2--O1--H1O2P1--O1--O1H1
+O1--H1O2P1--O1--C5H4N3O1--C5H9O2--O1--H1O2P1--O1--C4H4N3O1--C5H9O2--O1--H1O2P1--O1--O1H1
 Fragment 2 Formula:
+C19H30N6O19P3
+Fragment 1 Linked Structure:
+O1--H1O2P1--O1--C4H4N3O1--C5H9O2--O1--H1O2P1--O1--O1H1
+Fragment 1 Formula:
 C9H16N3O12P2
-Fragment 3 Linked Structure:
-O1--H1O2P1--O1
-Fragment 3 Formula:
-H1O4P1
 
 x-series fragments:
-Fragment 1 Linked Structure:
-H1O2P1--O1--C5H4N3O1--C5H9O2--O1--H1O2P1--O1--C4H4N3O1--C5H9O2--O1--H1O2P1--O1--O1H1
-Fragment 1 Formula:
-C19H30N6O19P3
 Fragment 2 Linked Structure:
-H1O2P1--O1--C4H4N3O1--C5H9O2--O1--H1O2P1--O1--O1H1
+H1O2P1--O1--C5H4N3O1--C5H9O2--O1--H1O2P1--O1--C4H4N3O1--C5H9O2--O1--H1O2P1--O1--O1H1
 Fragment 2 Formula:
+C19H30N6O19P3
+Fragment 1 Linked Structure:
+H1O2P1--O1--C4H4N3O1--C5H9O2--O1--H1O2P1--O1--O1H1
+Fragment 1 Formula:
 C9H16N3O12P2
-Fragment 3 Linked Structure:
-H1O2P1--O1
-Fragment 3 Formula:
-H1O4P1
 
 y-series fragments:
-Fragment 1 Linked Structure:
-O1--C5H4N3O1--C5H9O2--O1--H1O2P1--O1--C4H4N3O1--C5H9O2--O1--H1O2P1--O1--O1H1
-Fragment 1 Formula:
-C19H30N6O19P3
 Fragment 2 Linked Structure:
-O1--C4H4N3O1--C5H9O2--O1--H1O2P1--O1--O1H1
+O1--C5H4N3O1--C5H9O2--O1--H1O2P1--O1--C4H4N3O1--C5H9O2--O1--H1O2P1--O1--O1H1
 Fragment 2 Formula:
+C19H30N6O19P3
+Fragment 1 Linked Structure:
+O1--C4H4N3O1--C5H9O2--O1--H1O2P1--O1--O1H1
+Fragment 1 Formula:
 C9H16N3O12P2
-Fragment 3 Linked Structure:
-O1
-Fragment 3 Formula:
-H1O4P1
 
 z-series fragments:
-Fragment 1 Linked Structure:
-H1--C5H4N3O1--C5H9O2--O1--H1O2P1--O1--C4H4N3O1--C5H9O2--O1--H1O2P1--O1--O1H1
-Fragment 1 Formula:
-C19H30N6O19P3
 Fragment 2 Linked Structure:
-H1--C4H4N3O1--C5H9O2--O1--H1O2P1--O1--O1H1
+H1--C5H4N3O1--C5H9O2--O1--H1O2P1--O1--C4H4N3O1--C5H9O2--O1--H1O2P1--O1--O1H1
 Fragment 2 Formula:
+C19H30N6O19P3
+Fragment 1 Linked Structure:
+H1--C4H4N3O1--C5H9O2--O1--H1O2P1--O1--O1H1
+Fragment 1 Formula:
 C9H16N3O12P2
-Fragment 3 Linked Structure:
-H1
-Fragment 3 Formula:
-H1O4P1
 
 Chemical formula saved to chemical_formula.txt

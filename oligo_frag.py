@@ -98,6 +98,11 @@ def simulate_fragmentation(sequence):
         fragments["d"].append(prefix_formula + Counter(structures["outer_link"]) + Counter(structures["inner_link"]) + Counter(structures["outer_link"]) + Counter(structures["H"]))
         fragment_structures["d"].append("--".join(prefix_structure + [format_structure("outer_link")] + [format_structure("inner_link")] + [format_structure("outer_link")] + [format_structure("H")]))
 
+        # make sure not at end of the sequence so extra suffix isn't added
+        # w,x,y,z fragment amounts should be 1 less than a,b,c,d
+        if i == len(sequence)-1:
+            break
+
         # 3' side fragments (w, x, y, z)
         suffix_formula = Counter()
         suffix_structure = []
@@ -116,6 +121,7 @@ def simulate_fragmentation(sequence):
             if j == len(sequence)-1:
                 suffix_structure.append(format_structure("OH"))
                 suffix_formula.update(structures["OH"])
+
 
         suffix_structure.insert(0, format_structure("H"))  # Add inner_link to the beginning
         suffix_formula.update(structures["H"])
@@ -165,14 +171,29 @@ def main():
         # Simulate fragmentation
         fragments, fragment_structures = simulate_fragmentation(sequence)
         print("\nFragmentation Results:")
+        
         for ion_type, ion_list in fragments.items():
             print(f"\n{ion_type}-series fragments:")
-            for i, fragment in enumerate(ion_list):
-                formatted_fragment = format_chemical_formula(fragment)
-                print(f"Fragment {i + 1} Linked Structure:")
-                print(fragment_structures[ion_type][i])
-                print(f"Fragment {i + 1} Formula:")
-                print(formatted_fragment)
+        
+            if ion_type in ["w", "x", "y", "z"]:
+                # Reverse numbering for w, x, y, z series
+                total_fragments = len(ion_list)
+                for i, fragment in enumerate(ion_list):
+                    fragment_number = total_fragments - i  # Reverse numbering
+                    formatted_fragment = format_chemical_formula(fragment)
+                    print(f"Fragment {fragment_number} Linked Structure:")
+                    print(fragment_structures[ion_type][i])
+                    print(f"Fragment {fragment_number} Formula:")
+                    print(formatted_fragment)
+            else:
+                # Keep original numbering for a, b, c, d series
+                for i, fragment in enumerate(ion_list):
+                    fragment_number = i + 1  # Regular numbering
+                    formatted_fragment = format_chemical_formula(fragment)
+                    print(f"Fragment {fragment_number} Linked Structure:")
+                    print(fragment_structures[ion_type][i])
+                    print(f"Fragment {fragment_number} Formula:")
+                    print(formatted_fragment)
 
         with open(args.output, "w") as file:
             file.write(chemical_formula + "\n")
