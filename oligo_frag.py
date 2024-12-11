@@ -160,13 +160,13 @@ def main():
     try:
         # Build full RNA molecule
         formatted_structure, total_formula = calculate_chemical_formula(sequence)
-        print("Linkage Structure:")
-        print("--".join(formatted_structure))
-
         chemical_formula = format_chemical_formula(total_formula)
-        print(f"total_formula: \n{total_formula}")
-        print("\nChemical Formula:")
-        print(chemical_formula)
+        
+        print(f"Sequence to fragment: {sequence}")
+        print(f"\ntotal_formula: {total_formula}")
+        print(f"\nChemical Formula: {chemical_formula}")
+        print(f"\n{sequence} Linkage Structure:")
+        print("--".join(formatted_structure))
 
         # Simulate fragmentation
         fragments, fragment_structures = simulate_fragmentation(sequence)
@@ -183,8 +183,8 @@ def main():
                     formatted_fragment = format_chemical_formula(fragment)
                     print(f"Fragment {fragment_number} Linked Structure:")
                     print(fragment_structures[ion_type][i])
-                    print(f"Fragment {fragment_number} Formula:")
-                    print(formatted_fragment)
+                    print(f"Fragment {fragment_number} Formula: {formatted_fragment}")
+
             else:
                 # Keep original numbering for a, b, c, d series
                 for i, fragment in enumerate(ion_list):
@@ -192,8 +192,8 @@ def main():
                     formatted_fragment = format_chemical_formula(fragment)
                     print(f"Fragment {fragment_number} Linked Structure:")
                     print(fragment_structures[ion_type][i])
-                    print(f"Fragment {fragment_number} Formula:")
-                    print(formatted_fragment)
+                    print(f"Fragment {fragment_number} Formula: {formatted_fragment}")
+
 
         with open(args.output, "w") as file:
             file.write(chemical_formula + "\n")
