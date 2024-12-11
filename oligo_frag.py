@@ -107,10 +107,10 @@ def simulate_fragmentation(sequence):
         suffix_formula = Counter()
         suffix_structure = []
         for j in range(i+1, len(sequence)): # j starts at i+1 so it doesn't capture preceding base
-            suffix_structure.append(format_structure(sequence[j]))
-            suffix_formula.update(structures[sequence[j]])
             suffix_structure.append(format_structure("sugar"))
             suffix_formula.update(structures["sugar"])
+            suffix_structure.append(format_structure(sequence[j]))
+            suffix_formula.update(structures[sequence[j]])
             if j < len(sequence)-1:
                 suffix_structure.append(format_structure("outer_link"))
                 suffix_formula.update(structures["outer_link"])
