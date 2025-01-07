@@ -15,7 +15,7 @@ structures = {
 }
 
 def format_structure(component):
-    """Formats the CHNOP count of a component into a string."""
+    #Formats the CHNOP count of a component into a string.
     return "".join(f"{element}{count}" for element, count in structures[component].items())
 
 def calculate_chemical_formula(sequence):

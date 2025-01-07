@@ -26,57 +26,108 @@ structures = {
     "N_term": {"C": 0, "H": 2, "N": 1, "O": 0},  # N_terminal residue
     "C_term": {"C": 1, "H": 1, "N": 0, "O": 2},  # C_terminal residue
     "H": {"H": 1},
-    "C": {"C": 1},
+    "CH": {"C": 1, "H": 0},
+    "carbonyl": {"C": 1, "O": 1},
+    "amino": {"N": 1, "H": 1},
 }
 
-def format_chemical_formula(counter):
-    return "".join(f"{element}{count}" for element, count in sorted(counter.items()))
+def format_structure(component):
+    #Formats the CHNOP count of a component into a string.
+    return "".join(f"{element}{count}" for element, count in structures[component].items())
 
 def calculate_full_peptide(sequence):
-    total_formula = Counter(structures["N_term"])
+    total_formula = Counter()
+    format_formula = []
+
+    total_formula.update(structures["N_term"])
+    format_formula.append(format_structure("N_term"))
+    total_formula.update(structures["CH"])
+    format_formula.append(format_structure("CH"))
 
     for residue in sequence:
         if residue not in structures:
             raise ValueError(f"Invalid residue: {residue}")
+        
         total_formula.update(structures[residue])
+        format_formula.append(format_structure(residue))
+        total_formula.update(structures["carbonyl"])
+        format_formula.append(format_structure("carbonyl"))
+        total_formula.update(structures["amino"])
+        format_formula.append(format_structure("amino"))
 
     total_formula.update(structures["C_term"])
-    return total_formula
+    format_formula.append(format_structure("C_term"))
+    return format_formula, total_formula
 
 def simulate_fragmentation(sequence):
-    fragments = {"b": [], "y": [], "c": [], "x": [], "z": []}
+    fragments = {"a": [], "b": [], "c": [], "x": [], "y": [], "z": []}
+    fragment_structures = {"a": [], "b": [], "c": [], "x": [], "y": [], "z": []}
 
-    for i in range(len(sequence)):
-        # Generate b and c fragments (N-terminal)
-        b_formula = Counter(structures["N_term"])
-        c_formula = Counter(structures["N_term"])
+    for i, residue in enumerate(sequence):
+        
+        if residue not in structures:
+            raise ValueError(f"Invalid nucleotide: {residue}")
+        
+        # N-terminal side 
+        prefix_formula = Counter()
+        prefix_structure = []
 
-        for residue in sequence[:i + 1]:
-            b_formula.update(structures[residue])
-            c_formula.update(structures[residue])
+        prefix_formula.update(structures["N_term"])
+        prefix_structure.append(format_structure("N_term"))
 
-        c_formula.update({"H": 1, "O": 1})  # Add H and O for c-fragments
-        fragments["b"].append(format_chemical_formula(b_formula))
-        fragments["c"].append(format_chemical_formula(c_formula))
+        for j in range(i + 1):
+            prefix_structure.append(format_structure("CH"))
+            prefix_formula.update(structures["CH"])
+            prefix_structure.append(format_structure(sequence[j]))
+            prefix_formula.update(structures[sequence[j]])
+            prefix_structure.append(format_structure("carbonyl"))
+            prefix_formula.update(structures["carbonyl"])
+            prefix_structure.append(format_structure("amino"))
+            prefix_formula.update(structures["amino"])
+        
+        fragments["a"].append(prefix_formula - Counter(structures["carbonyl"]) - Counter(structures["amino"]))
+        fragment_structures["a"].append("--".join(prefix_structure + [format_structure("carbonyl")] + [format_structure("amino")]))
 
-        # Generate y, x, z fragments (C-terminal)
-        y_formula = Counter(structures["C_term"])
-        x_formula = Counter(structures["C_term"])
-        z_formula = Counter(structures["C_term"])
+        fragments["b"].append(prefix_formula - Counter(structures["amino"]))
+        fragment_structures["b"].append("--".join(prefix_structure + [format_structure("amino")]))
 
-        for residue in sequence[i:]:
-            y_formula.update(structures[residue])
-            x_formula.update(structures[residue])
-            z_formula.update(structures[residue])
+        fragments["c"].append(prefix_formula)
+        fragment_structures["c"].append("--".join(prefix_structure))
+        
+        if i == len(sequence)-1:
+            break
+        
+        # C-terminal side
+        suffix_formula = Counter()
+        suffix_structure = []
 
-        x_formula.update({"O": 1})  # Add O for x-fragments
-        z_formula.update({"H": -1})  # Remove H for z-fragments
+        for j in range(i+1, len(sequence)):
+            suffix_structure.append(format_structure("carbonyl"))
+            suffix_formula.update(structures["carbonyl"])
+            suffix_structure.append(format_structure("amino"))
+            suffix_formula.update(structures["amino"])
+            suffix_structure.append(format_structure("CH"))
+            suffix_formula.update(structures["CH"])
+            suffix_structure.append(format_structure(sequence[j]))
+            suffix_formula.update(structures[sequence[j]])
 
-        fragments["y"].append(format_chemical_formula(y_formula))
-        fragments["x"].append(format_chemical_formula(x_formula))
-        fragments["z"].append(format_chemical_formula(z_formula))
+            if j == len(sequence)-1:
+                suffix_structure.append(format_structure("C_term"))
+                suffix_formula.update(structures["C_term"])
 
-    return fragments
+        fragments["z"].append(suffix_formula - Counter(structures["carbonyl"]) - Counter(structures["amino"]))
+        fragment_structures["z"].append("--".join(suffix_structure + [format_structure("carbonyl")] + [format_structure("amino")]))
+
+        fragments["y"].append(suffix_formula - Counter(structures["carbonyl"]))
+        fragment_structures["y"].append("--".join(suffix_structure + [format_structure("carbonyl")]))
+
+        fragments["x"].append(suffix_formula)
+        fragment_structures["x"].append("--".join(suffix_structure))
+
+    return fragments, fragment_structures
+
+def format_chemical_formula(total_formula):
+    return ''.join(f"{element}{count}" for element, count in sorted(total_formula.items()))
 
 def main():
     parser = argparse.ArgumentParser(description="Simulate peptide fragmentation into b, y, c, x, and z ions.")
@@ -87,16 +138,38 @@ def main():
 
     try:
         # Calculate the full peptide formula
-        full_formula = calculate_full_peptide(sequence)
-        print("Full Peptide Formula:", format_chemical_formula(full_formula))
+        formatted_structure, total_formula = calculate_full_peptide(sequence)
+        chemical_formula = format_chemical_formula(total_formula)
+
+        print(f"Sequence to fragment: {sequence}")
+        print(f"\ntotal_formula: {total_formula}")
+        print(f"\nChemical Formula: {chemical_formula}")
+        print(f"\n{sequence} Linkage Structure:")
+        print("--".join(formatted_structure))
 
         # Simulate fragmentation
-        fragments = simulate_fragmentation(sequence)
+        fragments, fragment_structures = simulate_fragmentation(sequence)
 
         for ion_type, ion_list in fragments.items():
             print(f"\n{ion_type}-series fragments:")
-            for i, fragment in enumerate(ion_list, 1):
-                print(f"Fragment {i}: {fragment}")
+            if ion_type in ["w", "x", "y", "z"]:
+                # Reverse numbering for w, x, y, z series
+                total_fragments = len(ion_list)
+                for i, fragment in enumerate(ion_list):
+                    fragment_number = total_fragments - i  # Reverse numbering
+                    formatted_fragment = format_chemical_formula(fragment)
+                    print(f"Fragment {fragment_number} Linked Structure:")
+                    print(fragment_structures[ion_type][i])
+                    print(f"Fragment {fragment_number} Formula: {formatted_fragment}")
+
+            else:
+                # Keep original numbering for a, b, c, d series
+                for i, fragment in enumerate(ion_list):
+                    fragment_number = i + 1  # Regular numbering
+                    formatted_fragment = format_chemical_formula(fragment)
+                    print(f"Fragment {fragment_number} Linked Structure:")
+                    print(fragment_structures[ion_type][i])
+                    print(f"Fragment {fragment_number} Formula: \n{formatted_fragment}")
 
     except ValueError as e:
         print(e)
