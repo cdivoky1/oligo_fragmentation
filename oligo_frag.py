@@ -192,7 +192,7 @@ def main():
                     formatted_fragment = format_chemical_formula(fragment)
                     print(f"Fragment {fragment_number} Linked Structure:")
                     print(fragment_structures[ion_type][i])
-                    print(f"Fragment {fragment_number} Formula: {formatted_fragment}")
+                    print(f"Fragment {fragment_number} Formula: \n{formatted_fragment}")
 
 
         with open(args.output, "w") as file:
