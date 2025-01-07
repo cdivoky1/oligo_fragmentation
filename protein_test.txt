@@ -1,0 +1,74 @@
+Sequence to fragment: GCG
+
+total_formula: Counter({'H': 18, 'C': 12, 'O': 8, 'N': 7, 'S': 1})
+
+Chemical Formula: C12H18N7O8S1
+
+GCG Linkage Structure:
+H2N1--C1H1--C2H3N1O1--C1O1--N1H1--C3H5N1O1S1--C1O1--N1H1--C2H3N1O1--C1O1--N1H1--C1H1O2
+
+a-series fragments:
+Fragment 1 Linked Structure:
+H2N1--C1H1--C2H3N1O1--C1O1--N1H1--C1O1--N1H1
+Fragment 1 Formula: 
+C5H8N4O3
+Fragment 2 Linked Structure:
+H2N1--C1H1--C2H3N1O1--C1O1--N1H1--C1H1--C3H5N1O1S1--C1O1--N1H1--C1O1--N1H1
+Fragment 2 Formula: 
+C10H15N6O5S1
+Fragment 3 Linked Structure:
+H2N1--C1H1--C2H3N1O1--C1O1--N1H1--C1H1--C3H5N1O1S1--C1O1--N1H1--C1H1--C2H3N1O1--C1O1--N1H1--C1O1--N1H1
+Fragment 3 Formula: 
+C14H20N8O7S1
+
+b-series fragments:
+Fragment 1 Linked Structure:
+H2N1--C1H1--C2H3N1O1--C1O1--N1H1--N1H1
+Fragment 1 Formula: 
+C4H8N4O2
+Fragment 2 Linked Structure:
+H2N1--C1H1--C2H3N1O1--C1O1--N1H1--C1H1--C3H5N1O1S1--C1O1--N1H1--N1H1
+Fragment 2 Formula: 
+C9H15N6O4S1
+Fragment 3 Linked Structure:
+H2N1--C1H1--C2H3N1O1--C1O1--N1H1--C1H1--C3H5N1O1S1--C1O1--N1H1--C1H1--C2H3N1O1--C1O1--N1H1--N1H1
+Fragment 3 Formula: 
+C13H20N8O6S1
+
+c-series fragments:
+Fragment 1 Linked Structure:
+H2N1--C1H1--C2H3N1O1--C1O1--N1H1
+Fragment 1 Formula: 
+C4H7N3O2
+Fragment 2 Linked Structure:
+H2N1--C1H1--C2H3N1O1--C1O1--N1H1--C1H1--C3H5N1O1S1--C1O1--N1H1
+Fragment 2 Formula: 
+C9H14N5O4S1
+Fragment 3 Linked Structure:
+H2N1--C1H1--C2H3N1O1--C1O1--N1H1--C1H1--C3H5N1O1S1--C1O1--N1H1--C1H1--C2H3N1O1--C1O1--N1H1
+Fragment 3 Formula: 
+C13H19N7O6S1
+
+x-series fragments:
+Fragment 2 Linked Structure:
+C1O1--N1H1--C1H1--C3H5N1O1S1--C1O1--N1H1--C1H1--C2H3N1O1--C1H1O2
+Fragment 2 Formula: C10H13N4O6S1
+Fragment 1 Linked Structure:
+C1O1--N1H1--C1H1--C2H3N1O1--C1H1O2
+Fragment 1 Formula: C5H6N2O4
+
+y-series fragments:
+Fragment 2 Linked Structure:
+C1O1--N1H1--C1H1--C3H5N1O1S1--C1O1--N1H1--C1H1--C2H3N1O1--C1H1O2--C1O1
+Fragment 2 Formula: C11H13N4O7S1
+Fragment 1 Linked Structure:
+C1O1--N1H1--C1H1--C2H3N1O1--C1H1O2--C1O1
+Fragment 1 Formula: C6H6N2O5
+
+z-series fragments:
+Fragment 2 Linked Structure:
+C1O1--N1H1--C1H1--C3H5N1O1S1--C1O1--N1H1--C1H1--C2H3N1O1--C1H1O2--C1O1--N1H1
+Fragment 2 Formula: C11H14N5O7S1
+Fragment 1 Linked Structure:
+C1O1--N1H1--C1H1--C2H3N1O1--C1H1O2--C1O1--N1H1
+Fragment 1 Formula: C6H7N3O5

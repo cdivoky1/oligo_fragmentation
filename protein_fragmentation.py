@@ -23,10 +23,10 @@ structures = {
     "W": {"C": 11, "H": 10, "N": 2, "O": 1},# Tryptophan
     "Y": {"C": 9, "H": 9, "N": 1, "O": 2},  # Tyrosine
     "V": {"C": 5, "H": 9, "N": 1, "O": 1},  # Valine
-    "N_term": {"C": 0, "H": 2, "N": 1, "O": 0},  # N_terminal residue
-    "C_term": {"C": 1, "H": 1, "N": 0, "O": 2},  # C_terminal residue
+    "N_term": {"H": 2, "N": 1},  # N_terminal residue
+    "C_term": {"C": 1, "H": 1, "O": 2},  # C_terminal residue
     "H": {"H": 1},
-    "CH": {"C": 1, "H": 0},
+    "CH": {"C": 1, "H": 1},
     "carbonyl": {"C": 1, "O": 1},
     "amino": {"N": 1, "H": 1},
 }
@@ -85,10 +85,10 @@ def simulate_fragmentation(sequence):
             prefix_structure.append(format_structure("amino"))
             prefix_formula.update(structures["amino"])
         
-        fragments["a"].append(prefix_formula - Counter(structures["carbonyl"]) - Counter(structures["amino"]))
+        fragments["a"].append(prefix_formula + Counter(structures["carbonyl"]) + Counter(structures["amino"]))
         fragment_structures["a"].append("--".join(prefix_structure + [format_structure("carbonyl")] + [format_structure("amino")]))
 
-        fragments["b"].append(prefix_formula - Counter(structures["amino"]))
+        fragments["b"].append(prefix_formula + Counter(structures["amino"]))
         fragment_structures["b"].append("--".join(prefix_structure + [format_structure("amino")]))
 
         fragments["c"].append(prefix_formula)
@@ -115,10 +115,10 @@ def simulate_fragmentation(sequence):
                 suffix_structure.append(format_structure("C_term"))
                 suffix_formula.update(structures["C_term"])
 
-        fragments["z"].append(suffix_formula - Counter(structures["carbonyl"]) - Counter(structures["amino"]))
+        fragments["z"].append(suffix_formula + Counter(structures["carbonyl"]) + Counter(structures["amino"]))
         fragment_structures["z"].append("--".join(suffix_structure + [format_structure("carbonyl")] + [format_structure("amino")]))
 
-        fragments["y"].append(suffix_formula - Counter(structures["carbonyl"]))
+        fragments["y"].append(suffix_formula + Counter(structures["carbonyl"]))
         fragment_structures["y"].append("--".join(suffix_structure + [format_structure("carbonyl")]))
 
         fragments["x"].append(suffix_formula)
