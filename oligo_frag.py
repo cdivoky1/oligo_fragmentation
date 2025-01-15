@@ -122,25 +122,19 @@ def simulate_fragmentation(sequence):
                 suffix_structure.append(format_structure("OH"))
                 suffix_formula.update(structures["OH"])
 
-        print(suffix_formula)
-        suffix_structure.insert(0, format_structure("H"))  # Add inner_link to the beginning
+        suffix_structure.insert(0, format_structure("H"))  # Add outer_link to the beginning
         suffix_formula.update(structures["H"])
-        print(suffix_formula)
-        fragments["z"].append(suffix_formula)
+        fragments["z"].append(suffix_formula + Counter(structures["H"]))
         fragment_structures["z"].append("--".join(suffix_structure))
-        suffix_structure.pop(0)  # Remove the first element if it is "H"
-        print(suffix_formula)
-        suffix_formula.subtract(structures["H"])  # Subtract its contribution
-        print(suffix_formula)
 
         suffix_structure.insert(0, format_structure("outer_link"))  # Add outer_link to the beginning
         suffix_formula.update(structures["outer_link"])
-        fragments["y"].append(suffix_formula)
-        fragment_structures["y"].append("--".join(suffix_structure ))
+        fragments["y"].append(suffix_formula + Counter(structures["outer_link"]))
+        fragment_structures["y"].append("--".join(suffix_structure))
         
         suffix_structure.insert(0, format_structure("inner_link"))  # Add inner_link to the beginning
         suffix_formula.update(structures["inner_link"])
-        fragments["x"].append(suffix_formula)
+        fragments["x"].append(suffix_formula + Counter(structures["inner_link"]))
         fragment_structures["x"].append("--".join(suffix_structure))  
         
         suffix_structure.insert(0, format_structure("outer_link"))  # Add outer_link to the beginning
