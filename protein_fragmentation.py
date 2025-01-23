@@ -25,10 +25,11 @@ structures = {
     "V": {"C": 5, "H": 9, "N": 1, "O": 1},  # Valine
     "N_term": {"H": 2, "N": 1},  # N_terminal residue
     "C_term": {"C": 1, "H": 1, "O": 2},  # C_terminal residue
-    "H": {"H": 1},
+    "proton": {"H": 1},
     "CH": {"C": 1, "H": 1},
     "carbonyl": {"C": 1, "O": 1},
     "amino": {"N": 1, "H": 1},
+     "double_proton": {"H": 2},
 }
 
 def format_structure(component):
@@ -85,14 +86,34 @@ def simulate_fragmentation(sequence):
             prefix_structure.append(format_structure("amino"))
             prefix_formula.update(structures["amino"])
         
-        fragments["a"].append(prefix_formula + Counter(structures["carbonyl"]) + Counter(structures["amino"]))
-        fragment_structures["a"].append("--".join(prefix_structure + [format_structure("carbonyl")] + [format_structure("amino")]))
+        a_formula = prefix_formula.copy()  # Make a copy to avoid modifying the original
+        a_formula.subtract(structures["amino"])  # Remove "amino"
+        a_formula.subtract(structures["carbonyl"])  # Remove "carbonyl"
 
-        fragments["b"].append(prefix_formula + Counter(structures["amino"]))
-        fragment_structures["b"].append("--".join(prefix_structure + [format_structure("amino")]))
+        # Ensure no negative counts in the Counter
+        a_formula += Counter()
 
-        fragments["c"].append(prefix_formula)
-        fragment_structures["c"].append("--".join(prefix_structure))
+        # Adjust prefix_structure by slicing to remove the last two structures
+        a_struct = prefix_structure[:-2]
+
+        fragments["a"].append(a_formula + Counter(structures["proton"]))
+        fragment_structures["a"].append("--".join(a_struct + [format_structure("proton")]))
+        
+
+        b_formula = prefix_formula.copy()  # Make a copy to avoid modifying the original
+        b_formula.subtract(structures["amino"])  # Remove "amino"
+
+        # Ensure no negative counts in the Counter
+        b_formula += Counter()
+
+        # Adjust prefix_structure by slicing to remove the last two structures
+        b_struct = prefix_structure[:-1]
+        
+        fragments["b"].append(b_formula + Counter(structures["proton"]))
+        fragment_structures["b"].append("--".join(b_struct + [format_structure("proton")]))
+
+        fragments["c"].append(prefix_formula + Counter(structures["proton"]))
+        fragment_structures["c"].append("--".join(prefix_structure + [format_structure("proton")]))
         
         if i == len(sequence)-1:
             break
@@ -115,14 +136,57 @@ def simulate_fragmentation(sequence):
                 suffix_structure.append(format_structure("C_term"))
                 suffix_formula.update(structures["C_term"])
 
-        fragments["z"].append(suffix_formula + Counter(structures["carbonyl"]) + Counter(structures["amino"]))
-        fragment_structures["z"].append("--".join(suffix_structure + [format_structure("carbonyl")] + [format_structure("amino")]))
+        z_form = suffix_formula.copy()
+        z_struct = suffix_structure.copy()
 
-        fragments["y"].append(suffix_formula + Counter(structures["carbonyl"]))
-        fragment_structures["y"].append("--".join(suffix_structure + [format_structure("carbonyl")]))
+        # Remove terminal groups from the formula
+        z_form -= Counter(structures["carbonyl"])  # Remove carbonyl group
+        z_form -= Counter(structures["amino"])     # Remove amino group
 
-        fragments["x"].append(suffix_formula)
-        fragment_structures["x"].append("--".join(suffix_structure))
+        # Remove terminal groups from the structure
+        z_struct = z_struct[2:]  # Remove the first two groups 
+
+        z_form.update(structures["double_proton"])
+        z_struct.insert(0, format_structure("double_proton"))
+
+        # Append the adjusted formula and structure
+        fragments["z"].append(z_form)
+        fragment_structures["z"].append("--".join(z_struct))
+            
+        # Remove the trailing carbonyl from the suffix_formula and suffix_structure
+        y_form = suffix_formula
+        y_struct = suffix_structure
+        y_form.subtract(structures["carbonyl"])
+        y_struct = y_struct[1:]  # Remove the last item (carbonyl group)
+
+        # Add a hydrogen atom to the formula and structure for the y fragments
+        y_form.update(structures["proton"])
+        y_struct.insert(0, format_structure("proton"))  # Prepend hydrogen to the structure
+
+        ### formula was decreased by 2 hydrogens if just - Counter(proton) and not followed by + Counter(proton)
+        fragments["y"].append(y_form - Counter(structures["proton"]) + Counter(structures["proton"]))
+        fragment_structures["y"].append("--".join(y_struct))
+
+
+        # Create a copy of suffix_formula to avoid mutating the original
+        x_form = suffix_formula.copy()
+
+        # Add hydrogen to the formula
+        x_form.update(structures["proton"])  # Add 1 hydrogen
+
+        # Ensure the formula accurately reflects the full structure
+        # Add any missing contributions for carbon and oxygen
+        x_form.update(Counter({"C": 1, "O": 1}))  # Add 1 carbon and 1 oxygen
+        x_form.subtract(Counter({"H": 1}))  # Correct for the extra hydrogen
+
+
+        # Update the structure to reflect the proton addition
+        x_struct = suffix_structure.copy()
+        x_struct.insert(0, format_structure("proton"))  # Prepend hydrogen to the structure
+
+        # Append the corrected formula and structure
+        fragments["x"].append(x_form)
+        fragment_structures["x"].append("--".join(x_struct))
 
     return fragments, fragment_structures
 
@@ -160,7 +224,7 @@ def main():
                     formatted_fragment = format_chemical_formula(fragment)
                     print(f"Fragment {fragment_number} Linked Structure:")
                     print(fragment_structures[ion_type][i])
-                    print(f"Fragment {fragment_number} Formula: {formatted_fragment}")
+                    print(f"Fragment {fragment_number} Formula: \n{formatted_fragment}")
 
             else:
                 # Keep original numbering for a, b, c, d series
