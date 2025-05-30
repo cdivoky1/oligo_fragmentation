@@ -18,5 +18,7 @@ Fragments a given RNA (A/C/G/U) oligo into a, b, c, d, w, x, y, and z fragments 
 
 *Image adapted from [Matrix Science](https://www.matrixscience.com/help/fragmentation_help.html)*
 
+---
+
 Notes:
 - While it prints the reverse ion fragments in descending order (fragment N → fragment 1), the ion fragments are stored in their data structure in ascending order (fragment 1 → fragment N).
