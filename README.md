@@ -7,9 +7,5 @@ Fragmentation breakdown:
 Image ref: https://link.springer.com/article/10.1140/epjd/e2011-20616-y (fig 22)
 
 Notes:
-- While it prints the reverse ion fragments (w,x,y, & z) in decending order (fragment N -> fragment 1), the ion fragments are stored in their data structure in ascending order (fragment 1 -> fragment N).
+- While it prints the reverse ion fragments in decending order (fragment N -> fragment 1), the ion fragments are stored in their data structure in ascending order (fragment 1 -> fragment N).
 
-Upcoming Versions:
-- Handle fragmentation of digested RNA species
-- Handle non-miRNA structured RNAs
-- Peptide fragmentation 
