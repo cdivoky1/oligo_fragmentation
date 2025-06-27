@@ -1,0 +1,128 @@
+Sequence to fragment: LFQNY
+
+total_formula: Counter({'H': 40, 'C': 30, 'O': 10, 'N': 8})
+
+Chemical Formula: C30H40N8O10
+
+LFQNY Linkage Structure:
+H2N1--C1H1--C4H7N0O0--C1O1--N1H1--C7H7N0O0--C1O1--N1H1--C3H6N1O1--C1O1--N1H1--C2H4N1O1--C1O1--N1H1--C7H7N0O1--C1O1--N1H1--C1H1O2
+
+a-series fragments:
+Fragment 1 Linked Structure:
+H2N1--C1H1--C4H7N0O0--H1
+Fragment 1 Formula: 
+C5H11N1
+Fragment 2 Linked Structure:
+H2N1--C1H1--C4H7N0O0--C1O1--N1H1--C1H1--C7H7N0O0--H1
+Fragment 2 Formula: 
+C14H20N2O1
+Fragment 3 Linked Structure:
+H2N1--C1H1--C4H7N0O0--C1O1--N1H1--C1H1--C7H7N0O0--C1O1--N1H1--C1H1--C3H6N1O1--H1
+Fragment 3 Formula: 
+C19H28N4O3
+Fragment 4 Linked Structure:
+H2N1--C1H1--C4H7N0O0--C1O1--N1H1--C1H1--C7H7N0O0--C1O1--N1H1--C1H1--C3H6N1O1--C1O1--N1H1--C1H1--C2H4N1O1--H1
+Fragment 4 Formula: 
+C23H34N6O5
+Fragment 5 Linked Structure:
+H2N1--C1H1--C4H7N0O0--C1O1--N1H1--C1H1--C7H7N0O0--C1O1--N1H1--C1H1--C3H6N1O1--C1O1--N1H1--C1H1--C2H4N1O1--C1O1--N1H1--C1H1--C7H7N0O1--H1
+Fragment 5 Formula: 
+C32H43N7O7
+
+b-series fragments:
+Fragment 1 Linked Structure:
+H2N1--C1H1--C4H7N0O0--C1O1--H1
+Fragment 1 Formula: 
+C6H11N1O1
+Fragment 2 Linked Structure:
+H2N1--C1H1--C4H7N0O0--C1O1--N1H1--C1H1--C7H7N0O0--C1O1--H1
+Fragment 2 Formula: 
+C15H20N2O2
+Fragment 3 Linked Structure:
+H2N1--C1H1--C4H7N0O0--C1O1--N1H1--C1H1--C7H7N0O0--C1O1--N1H1--C1H1--C3H6N1O1--C1O1--H1
+Fragment 3 Formula: 
+C20H28N4O4
+Fragment 4 Linked Structure:
+H2N1--C1H1--C4H7N0O0--C1O1--N1H1--C1H1--C7H7N0O0--C1O1--N1H1--C1H1--C3H6N1O1--C1O1--N1H1--C1H1--C2H4N1O1--C1O1--H1
+Fragment 4 Formula: 
+C24H34N6O6
+Fragment 5 Linked Structure:
+H2N1--C1H1--C4H7N0O0--C1O1--N1H1--C1H1--C7H7N0O0--C1O1--N1H1--C1H1--C3H6N1O1--C1O1--N1H1--C1H1--C2H4N1O1--C1O1--N1H1--C1H1--C7H7N0O1--C1O1--H1
+Fragment 5 Formula: 
+C33H43N7O8
+
+c-series fragments:
+Fragment 1 Linked Structure:
+H2N1--C1H1--C4H7N0O0--C1O1--N1H1--H1
+Fragment 1 Formula: 
+C6H12N2O1
+Fragment 2 Linked Structure:
+H2N1--C1H1--C4H7N0O0--C1O1--N1H1--C1H1--C7H7N0O0--C1O1--N1H1--H1
+Fragment 2 Formula: 
+C15H21N3O2
+Fragment 3 Linked Structure:
+H2N1--C1H1--C4H7N0O0--C1O1--N1H1--C1H1--C7H7N0O0--C1O1--N1H1--C1H1--C3H6N1O1--C1O1--N1H1--H1
+Fragment 3 Formula: 
+C20H29N5O4
+Fragment 4 Linked Structure:
+H2N1--C1H1--C4H7N0O0--C1O1--N1H1--C1H1--C7H7N0O0--C1O1--N1H1--C1H1--C3H6N1O1--C1O1--N1H1--C1H1--C2H4N1O1--C1O1--N1H1--H1
+Fragment 4 Formula: 
+C24H35N7O6
+Fragment 5 Linked Structure:
+H2N1--C1H1--C4H7N0O0--C1O1--N1H1--C1H1--C7H7N0O0--C1O1--N1H1--C1H1--C3H6N1O1--C1O1--N1H1--C1H1--C2H4N1O1--C1O1--N1H1--C1H1--C7H7N0O1--C1O1--N1H1--H1
+Fragment 5 Formula: 
+C33H44N8O8
+
+x-series fragments:
+Fragment 4 Linked Structure:
+H1--C1O1--N1H1--C1H1--C7H7N0O0--C1O1--N1H1--C1H1--C3H6N1O1--C1O1--N1H1--C1H1--C2H4N1O1--C1O1--N1H1--C1H1--C7H7N0O1--C1H1O2
+Fragment 4 Formula: 
+C28H34N6O9
+Fragment 3 Linked Structure:
+H1--C1O1--N1H1--C1H1--C3H6N1O1--C1O1--N1H1--C1H1--C2H4N1O1--C1O1--N1H1--C1H1--C7H7N0O1--C1H1O2
+Fragment 3 Formula: 
+C19H25N5O8
+Fragment 2 Linked Structure:
+H1--C1O1--N1H1--C1H1--C2H4N1O1--C1O1--N1H1--C1H1--C7H7N0O1--C1H1O2
+Fragment 2 Formula: 
+C14H17N3O6
+Fragment 1 Linked Structure:
+H1--C1O1--N1H1--C1H1--C7H7N0O1--C1H1O2
+Fragment 1 Formula: 
+C10H11N1O4
+
+y-series fragments:
+Fragment 4 Linked Structure:
+H1--N1H1--C1H1--C7H7N0O0--C1O1--N1H1--C1H1--C3H6N1O1--C1O1--N1H1--C1H1--C2H4N1O1--C1O1--N1H1--C1H1--C7H7N0O1--C1H1O2
+Fragment 4 Formula: 
+C27H34N6O8
+Fragment 3 Linked Structure:
+H1--N1H1--C1H1--C3H6N1O1--C1O1--N1H1--C1H1--C2H4N1O1--C1O1--N1H1--C1H1--C7H7N0O1--C1H1O2
+Fragment 3 Formula: 
+C18H25N5O7
+Fragment 2 Linked Structure:
+H1--N1H1--C1H1--C2H4N1O1--C1O1--N1H1--C1H1--C7H7N0O1--C1H1O2
+Fragment 2 Formula: 
+C13H17N3O5
+Fragment 1 Linked Structure:
+H1--N1H1--C1H1--C7H7N0O1--C1H1O2
+Fragment 1 Formula: 
+C9H11N1O3
+
+z-series fragments:
+Fragment 4 Linked Structure:
+H2--C1H1--C7H7N0O0--C1O1--N1H1--C1H1--C3H6N1O1--C1O1--N1H1--C1H1--C2H4N1O1--C1O1--N1H1--C1H1--C7H7N0O1--C1H1O2
+Fragment 4 Formula: 
+C27H34N5O8
+Fragment 3 Linked Structure:
+H2--C1H1--C3H6N1O1--C1O1--N1H1--C1H1--C2H4N1O1--C1O1--N1H1--C1H1--C7H7N0O1--C1H1O2
+Fragment 3 Formula: 
+C18H25N4O7
+Fragment 2 Linked Structure:
+H2--C1H1--C2H4N1O1--C1O1--N1H1--C1H1--C7H7N0O1--C1H1O2
+Fragment 2 Formula: 
+C13H17N2O5
+Fragment 1 Linked Structure:
+H2--C1H1--C7H7N0O1--C1H1O2
+Fragment 1 Formula: 
+C9H11O3

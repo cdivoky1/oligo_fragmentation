@@ -5,23 +5,23 @@ from collections import Counter
 structures = {
     "A": {"C": 0, "H": 1, "N": 0, "O": 0},  # Alanine ALA A
     "R": {"C": 6, "H": 12, "N": 4, "O": 1}, # Arginine
-    "N": {"C": 4, "H": 6, "N": 2, "O": 2},  # Asparagine
+    "N": {"C": 2, "H": 4, "N": 1, "O": 1},  # Asparagine
     "D": {"C": 4, "H": 5, "N": 1, "O": 3},  # Aspartic acid
     "C": {"C": 3, "H": 5, "N": 1, "O": 1, "S": 1}, # Cysteine
     "E": {"C": 5, "H": 7, "N": 1, "O": 3},  # Glutamic acid
-    "Q": {"C": 5, "H": 8, "N": 2, "O": 2},  # Glutamine
+    "Q": {"C": 3, "H": 6, "N": 1, "O": 1},  # Glutamine
     "G": {"C": 2, "H": 3, "N": 1, "O": 1},  # Glycine
     "H": {"C": 6, "H": 7, "N": 3, "O": 1},  # Histidine
     "I": {"C": 6, "H": 11, "N": 1, "O": 1}, # Isoleucine
-    "L": {"C": 6, "H": 11, "N": 1, "O": 1}, # Leucine
+    "L": {"C": 4, "H": 7, "N": 0, "O": 0}, # Leucine
     "K": {"C": 6, "H": 12, "N": 2, "O": 1}, # Lysine
     "M": {"C": 5, "H": 9, "N": 1, "O": 1, "S": 1}, # Methionine
-    "F": {"C": 9, "H": 9, "N": 1, "O": 1},  # Phenylalanine
+    "F": {"C": 7, "H": 7, "N": 0, "O": 0},  # Phenylalanine
     "P": {"C": 5, "H": 7, "N": 1, "O": 1},  # Proline
     "S": {"C": 3, "H": 5, "N": 1, "O": 2},  # Serine
     "T": {"C": 4, "H": 7, "N": 1, "O": 2},  # Threonine
     "W": {"C": 11, "H": 10, "N": 2, "O": 1},# Tryptophan
-    "Y": {"C": 9, "H": 9, "N": 1, "O": 2},  # Tyrosine
+    "Y": {"C": 7, "H": 7, "N": 0, "O": 1},  # Tyrosine
     "V": {"C": 5, "H": 9, "N": 1, "O": 1},  # Valine
     "N_term": {"H": 2, "N": 1},  # N_terminal residue
     "C_term": {"C": 1, "H": 1, "O": 2},  # C_terminal residue
