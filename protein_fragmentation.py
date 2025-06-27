@@ -29,7 +29,7 @@ structures = {
     "CH": {"C": 1, "H": 1},
     "carbonyl": {"C": 1, "O": 1},
     "amino": {"N": 1, "H": 1},
-     "double_proton": {"H": 2},
+    "double_proton": {"H": 2},
 }
 
 def format_structure(component):
@@ -95,6 +95,7 @@ def simulate_fragmentation(sequence):
 
         # Adjust prefix_structure by slicing to remove the last two structures
         a_struct = prefix_structure[:-2]
+        #a_struct = prefix_structure
 
         fragments["a"].append(a_formula + Counter(structures["proton"]))
         fragment_structures["a"].append("--".join(a_struct + [format_structure("proton")]))
